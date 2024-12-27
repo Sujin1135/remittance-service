@@ -20,20 +20,56 @@ configurations {
     }
 }
 
-repositories {
-    mavenCentral()
+allprojects {
+    repositories {
+        mavenCentral()
+    }
 }
 
 dependencies {
-    implementation(libs.spring.web)
-    implementation(libs.bundles.db.libs)
-    implementation(libs.bundles.flyway)
-    compileOnly(libs.lombok)
-    annotationProcessor(libs.lombok)
-    runtimeOnly(libs.mysql.connector.j)
-    testImplementation(libs.bundles.spring.test)
-    testImplementation(libs.bundles.test.db)
-    testRuntimeOnly(libs.junit.platform.launcher)
+    implementation(project(":subproject:presentation"))
+    implementation(project(":subproject:domain"))
+    implementation(project(":subproject:application"))
+    implementation(project(":subproject:infrastructure"))
+}
+
+allprojects {
+    apply(
+        plugin =
+            rootProject.libs.plugins.spring.boot
+                .get()
+                .pluginId,
+    )
+    apply(
+        plugin =
+            rootProject.libs.plugins.dependency.management
+                .get()
+                .pluginId,
+    )
+    apply(
+        plugin =
+            rootProject.libs.plugins.flyway
+                .get()
+                .pluginId,
+    )
+    apply(plugin = "java")
+
+    dependencies {
+        implementation(rootProject.libs.spring.web)
+        implementation(rootProject.libs.bundles.db.libs)
+        implementation(rootProject.libs.bundles.flyway)
+
+        compileOnly(rootProject.libs.lombok)
+
+        annotationProcessor(rootProject.libs.lombok)
+
+        runtimeOnly(rootProject.libs.mysql.connector.j)
+
+        testImplementation(rootProject.libs.bundles.spring.test)
+        testImplementation(rootProject.libs.bundles.test.db)
+
+        testRuntimeOnly(rootProject.libs.junit.platform.launcher)
+    }
 }
 
 tasks.withType<Test> {

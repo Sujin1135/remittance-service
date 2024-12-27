@@ -7,6 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class RemittanceServiceApplication {
 
     public static void main(String[] args) {
+        System.setProperty(
+            "spring.config.name",
+            "application,application-infrastructure,application-app,application-presentation,application-domain"
+        );
         SpringApplication.run(RemittanceServiceApplication.class, args);
     }
 
