@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":subproject:domain"))
     implementation(rootProject.libs.bundles.db.libs)
     implementation(rootProject.libs.bundles.flyway)
 
