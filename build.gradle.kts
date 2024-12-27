@@ -2,7 +2,6 @@ plugins {
     java
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.dependency.management)
-    alias(libs.plugins.flyway)
 }
 
 group = "io.dflowers"
@@ -46,27 +45,16 @@ allprojects {
                 .get()
                 .pluginId,
     )
-    apply(
-        plugin =
-            rootProject.libs.plugins.flyway
-                .get()
-                .pluginId,
-    )
     apply(plugin = "java")
 
     dependencies {
         implementation(rootProject.libs.spring.web)
-        implementation(rootProject.libs.bundles.db.libs)
-        implementation(rootProject.libs.bundles.flyway)
 
         compileOnly(rootProject.libs.lombok)
 
         annotationProcessor(rootProject.libs.lombok)
 
-        runtimeOnly(rootProject.libs.mysql.connector.j)
-
         testImplementation(rootProject.libs.bundles.spring.test)
-        testImplementation(rootProject.libs.bundles.test.db)
 
         testRuntimeOnly(rootProject.libs.junit.platform.launcher)
     }
