@@ -1,5 +1,6 @@
 package io.dflowers.remittanceservice.entity;
 
+import io.dflowers.remittanceservice.domain.BankAccount;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,4 +31,15 @@ public class BankAccountEntity {
     @Nullable
     @Column(nullable = true)
     private OffsetDateTime deleted;
+
+    public BankAccount toDomain() {
+        return new BankAccount(
+            id = id,
+            name = name,
+            balance = balance,
+            created = created,
+            modified = modified,
+            deleted = deleted
+        );
+    }
 }

@@ -17,8 +17,9 @@ public class BankAccountRepositoryImpl implements BankAccountRepository {
     }
 
     @Override
-    public BankAccount findById(UUID id) {
-        Optional<BankAccountEntity> account = jpaBankAccountRepository.findById(id);
-        return null;
+    public Optional<BankAccount> findById(UUID id) {
+        return jpaBankAccountRepository
+            .findById(id)
+            .map(BankAccountEntity::toDomain);
     }
 }
