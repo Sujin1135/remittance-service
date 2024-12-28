@@ -4,8 +4,6 @@ import io.dflowers.remittanceservice.domain.BankAccount;
 import io.dflowers.remittanceservice.entity.BankAccountEntity;
 import java.util.Optional;
 import java.util.UUID;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
