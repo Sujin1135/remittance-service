@@ -1,6 +1,6 @@
 package io.dflowers.remittanceservice.service.bank;
 
-import exception.NotFoundException;
+import io.dflowers.remittanceservice.service.exception.NotFoundException;
 import io.dflowers.remittanceservice.domain.BankAccount;
 import io.dflowers.remittanceservice.repository.BankAccountRepository;
 import java.util.UUID;
