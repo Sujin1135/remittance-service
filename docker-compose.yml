@@ -1,0 +1,28 @@
+services:
+  redis:
+    container_name: remittance-redis
+    image: redis:7-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis/data:/data
+      - ./redis/conf/redis.conf:/usr/local/conf/redis.conf
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    command: redis-server /usr/local/conf/redis.conf
+  mysql:
+    image: mysql:8.0
+    restart: always
+    container_name: remittance-mysql8
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password123!
+      MYSQL_DATABASE: remittance
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./data/mysql/:/var/lib/mysql
