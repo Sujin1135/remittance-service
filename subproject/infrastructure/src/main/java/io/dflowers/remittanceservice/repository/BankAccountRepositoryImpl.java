@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class BankAccountRepositoryImpl implements BankAccountRepository {
+
     private final JpaBankAccountRepository jpaBankAccountRepository;
 
     public BankAccountRepositoryImpl(JpaBankAccountRepository jpaBankAccountRepository) {

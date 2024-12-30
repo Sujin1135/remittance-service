@@ -5,7 +5,9 @@ import io.dflowers.remittanceservice.domain.BankAccount;
 import io.dflowers.remittanceservice.repository.BankAccountRepository;
 import java.util.UUID;
 import java.util.function.Function;
+import org.springframework.stereotype.Service;
 
+@Service
 public class FindBankById implements Function<UUID, BankAccount> {
     private final BankAccountRepository bankAccountRepository;
 

@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
-@Repository
 public interface BankAccountRepository {
     Optional<BankAccount> findById(UUID id);
 }
