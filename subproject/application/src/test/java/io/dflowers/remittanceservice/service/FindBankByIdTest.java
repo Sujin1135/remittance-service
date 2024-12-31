@@ -3,7 +3,6 @@ package io.dflowers.remittanceservice.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.dflowers.remittanceservice.service.bank.FindBankById;
-import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -57,7 +56,7 @@ public class FindBankByIdTest {
 
     @Test
     public void testFind() {
-        var some = findBankById.apply(UUID.randomUUID());
+        var some = findBankById.apply(5L);
         int result = 1 + 3;
         assertEquals(4, result);
     }

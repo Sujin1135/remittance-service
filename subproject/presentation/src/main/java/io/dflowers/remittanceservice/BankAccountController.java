@@ -2,7 +2,6 @@ package io.dflowers.remittanceservice;
 
 import io.dflowers.remittanceservice.domain.BankAccount;
 import io.dflowers.remittanceservice.service.bank.FindBankById;
-import java.util.UUID;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +15,6 @@ public class BankAccountController {
 
     @GetMapping("/accounts")
     BankAccount getAccounts() {
-        return findBankById.apply(UUID.randomUUID());
+        return findBankById.apply(5L);
     }
 }

@@ -2,9 +2,7 @@ package io.dflowers.remittanceservice.repository;
 
 import io.dflowers.remittanceservice.domain.BankAccount;
 import java.util.Optional;
-import java.util.UUID;
-import org.springframework.stereotype.Repository;
 
 public interface BankAccountRepository {
-    Optional<BankAccount> findById(UUID id);
+    Optional<BankAccount> findById(long id);
 }

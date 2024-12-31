@@ -3,11 +3,12 @@ package io.dflowers.remittanceservice.domain;
 import jakarta.annotation.Nullable;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.UUID;
 
 public record BankAccount(
-    UUID id,
+    long id,
     String name,
+    Bank bank,
+    String account_number,
     BigDecimal balance,
     OffsetDateTime created,
     OffsetDateTime modified,
