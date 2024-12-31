@@ -10,7 +10,7 @@ CREATE TABLE customers
 
 CREATE TABLE bank_accounts (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL, -- 사용자 식별자
+    customer_id BIGINT NOT NULL, -- 사용자 식별자
     name VARCHAR(50) NOT NULL, -- 계좌명
     bank ENUM('KBank', 'Shinhan', 'Hana', 'Woori', 'KakaoBank') NOT NULL, -- 은행
     account_number VARCHAR(20) NOT NULL UNIQUE, -- 계좌번호
@@ -18,7 +18,7 @@ CREATE TABLE bank_accounts (
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     deleted TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES customers (id)
+    FOREIGN KEY (customer_id) REFERENCES customers (id)
 );
 
 CREATE TABLE transactions (
