@@ -5,11 +5,9 @@ import io.dflowers.remittanceservice.domain.BankAccount;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -19,13 +17,42 @@ import lombok.Getter;
 @Table(name = "bank_accounts")
 @Getter
 public class BankAccountEntity {
+    public static BankAccountEntity from(BankAccount bankAccount) {
+        return new BankAccountEntity(
+            bankAccount.name(),
+            bankAccount.accountNumber(),
+            bankAccount.bank(),
+            bankAccount.balance(),
+            bankAccount.created(),
+            bankAccount.modified()
+        );
+    }
+
+    protected BankAccountEntity() {}
+
+    public BankAccountEntity(
+        String name,
+        String accountNumber,
+        Bank bank,
+        BigDecimal balance,
+        OffsetDateTime created,
+        OffsetDateTime modified
+    ) {
+        this.name = name;
+        this.accountNumber = accountNumber;
+        this.bank = bank;
+        this.userId = 1L;
+        this.balance = balance;
+        this.created = created;
+        this.modified = modified;
+    }
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
+    @Column(nullable = false, name = "user_id")
+    private Long userId;
 
     @Column(nullable = false)
     private String name;
@@ -52,6 +79,7 @@ public class BankAccountEntity {
     public BankAccount toDomain() {
         return new BankAccount(
             id = id,
+            userId = userId,
             name = name,
             bank = bank,
             accountNumber = accountNumber,

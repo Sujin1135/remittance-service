@@ -20,4 +20,11 @@ public class BankAccountRepositoryImpl implements BankAccountRepository {
             .findById(id)
             .map(BankAccountEntity::toDomain);
     }
+
+    @Override
+    public BankAccount save(BankAccount bankAccount) {
+        return jpaBankAccountRepository
+            .save(BankAccountEntity.from(bankAccount))
+            .toDomain();
+    }
 }

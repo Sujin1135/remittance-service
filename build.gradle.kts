@@ -1,5 +1,6 @@
 plugins {
     java
+    `java-test-fixtures`
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.dependency.management)
 }
@@ -46,6 +47,7 @@ allprojects {
                 .pluginId,
     )
     apply(plugin = "java")
+    apply(plugin = "java-test-fixtures")
 
     dependencies {
         implementation(rootProject.libs.spring.web)
