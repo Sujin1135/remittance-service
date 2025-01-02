@@ -71,9 +71,9 @@ public class CreateBankAccountTest {
     }
 
     @Test
-    public void testShouldReturnByInput() {
+    public void testShouldReturnByInput() throws NotFoundException, BadRequestException {
         var params = BankAccountDataFactory.generate(user.id());
-        var sut = createBankAccount.apply(params);
+        var sut = createBankAccount.invoke(params);
 
         assertEquals(sut.userId(), params.userId());
         assertEquals(sut.accountNumber(), params.accountNumber());
@@ -84,23 +84,23 @@ public class CreateBankAccountTest {
     public void testShouldRaiseCauseNotExistedUserId() {
         var params = BankAccountDataFactory.generate(0);
 
-        RuntimeException exception = assertThrows(
+        Exception exception = assertThrows(
             NotFoundException.class,
-            () -> { createBankAccount.apply(params); }
+            () -> { createBankAccount.invoke(params); }
         );
 
         assertEquals("User not found", exception.getMessage());
     }
 
     @Test
-    public void testShouldRaiseCauseNotExistedAccountNumber() {
+    public void testShouldRaiseCauseNotExistedAccountNumber() throws NotFoundException, BadRequestException {
         var params = BankAccountDataFactory.generate(user.id());
 
-        createBankAccount.apply(params);
+        createBankAccount.invoke(params);
 
-        RuntimeException exception = assertThrows(
+        Exception exception = assertThrows(
             BadRequestException.class,
-            () -> createBankAccount.apply(params)
+            () -> createBankAccount.invoke(params)
         );
 
         assertEquals("Account number is already exists", exception.getMessage());

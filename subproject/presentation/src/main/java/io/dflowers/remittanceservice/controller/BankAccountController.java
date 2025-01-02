@@ -3,6 +3,8 @@ package io.dflowers.remittanceservice.controller;
 import io.dflowers.remittanceservice.dto.CreateAccountRequest;
 import io.dflowers.remittanceservice.dto.CreateAccountResponse;
 import io.dflowers.remittanceservice.service.bank.CreateBankAccount;
+import io.dflowers.remittanceservice.service.exception.BadRequestException;
+import io.dflowers.remittanceservice.service.exception.NotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +21,9 @@ public class BankAccountController {
 
     @PostMapping("/accounts")
     @ResponseStatus(HttpStatus.CREATED)
-    CreateAccountResponse createAccount(@Valid @RequestBody CreateAccountRequest body) {
-        return new CreateAccountResponse(createBankAccount.apply(body.toDomain()));
+    CreateAccountResponse createAccount(
+        @Valid @RequestBody CreateAccountRequest body
+    ) throws NotFoundException, BadRequestException {
+        return new CreateAccountResponse(createBankAccount.invoke(body.toDomain()));
     }
 }

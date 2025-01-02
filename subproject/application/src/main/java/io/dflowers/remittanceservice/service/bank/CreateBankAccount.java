@@ -5,11 +5,10 @@ import io.dflowers.remittanceservice.repository.BankAccountRepository;
 import io.dflowers.remittanceservice.repository.UserRepository;
 import io.dflowers.remittanceservice.service.exception.BadRequestException;
 import io.dflowers.remittanceservice.service.exception.NotFoundException;
-import java.util.function.Function;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CreateBankAccount implements Function<BankAccount, BankAccount> {
+public class CreateBankAccount {
     private final BankAccountRepository bankAccountRepository;
     private final UserRepository userRepository;
 
@@ -21,21 +20,19 @@ public class CreateBankAccount implements Function<BankAccount, BankAccount> {
         this.userRepository = userRepository;
     }
 
-    @Override
-    public BankAccount apply(BankAccount params) throws NotFoundException, BadRequestException {
-        validateUser(params);
+    public BankAccount invoke(BankAccount params) throws NotFoundException, BadRequestException {
+        validate(params);
 
         return bankAccountRepository.save(params);
     }
 
-    private void validateUser(BankAccount params) throws NotFoundException, BadRequestException {
+    private void validate(BankAccount params) throws NotFoundException, BadRequestException {
         userRepository.findOne(
             params.userId()).orElseThrow(() -> new NotFoundException("User not found")
         );
 
-        bankAccountRepository.findByAccountNumber(params.accountNumber())
-            .ifPresent(data -> {
-                throw new BadRequestException("Account number is already exists");
-            });
+        if (bankAccountRepository.findByAccountNumber(params.accountNumber()).isPresent()) {
+            throw new BadRequestException("Account number is already exists");
+        }
     }
 }
