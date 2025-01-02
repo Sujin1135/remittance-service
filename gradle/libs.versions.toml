@@ -8,7 +8,7 @@ testcontainers = "1.20.4"
 junit-platform-launcher = "1.11.4"
 junit = "5.11.4"
 fixture-monkey = "1.1.8"
-swagger = "2.3.0"
+swagger = "2.7.0"
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring" }
@@ -32,7 +32,7 @@ testcontainers-mysql = { group = "org.testcontainers", name = "mysql", version.r
 junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher", version.ref = "junit-platform-launcher" }
 junit-vintage-engine = { group = "org.junit.vintage", name = "junit-vintage-engine", version.ref = "junit" }
 fixture-monkey = { group = "com.navercorp.fixturemonkey", name = "fixture-monkey", version.ref = "fixture-monkey" }
-swagger = { module = "org.springdoc:springdoc-openapi-starter-webflux-ui", version.ref = "swagger" }
+swagger = { group = "org.springdoc", name = "springdoc-openapi-starter-webmvc-ui", version.ref = "swagger" }
 
 [bundles]
 db-libs = ["spring-jdbc", "spring-data-jpa", "spring-data-jdbc"]
