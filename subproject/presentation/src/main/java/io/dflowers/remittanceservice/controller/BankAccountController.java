@@ -1,12 +1,10 @@
 package io.dflowers.remittanceservice.controller;
 
-import io.dflowers.remittanceservice.domain.Bank;
 import io.dflowers.remittanceservice.domain.BankAccount;
 import io.dflowers.remittanceservice.dto.CreateAccountRequest;
 import io.dflowers.remittanceservice.service.bank.CreateBankAccount;
 import io.dflowers.remittanceservice.service.bank.FindBankById;
 import jakarta.validation.Valid;
-import java.math.BigDecimal;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
