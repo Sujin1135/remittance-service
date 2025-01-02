@@ -7,6 +7,7 @@ mysql-connector-j = "9.1.0"
 testcontainers = "1.20.4"
 junit-platform-launcher = "1.11.4"
 junit = "5.11.4"
+fixture-monkey = "1.1.8"
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring" }
@@ -28,6 +29,7 @@ testcontainers-junit = { group = "org.testcontainers", name = "junit-jupiter", v
 testcontainers-mysql = { group = "org.testcontainers", name = "mysql", version.ref = "testcontainers" }
 junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher", version.ref = "junit-platform-launcher" }
 junit-vintage-engine = { group = "org.junit.vintage", name = "junit-vintage-engine", version.ref = "junit" }
+fixture-monkey = { group = "com.navercorp.fixturemonkey", name = "fixture-monkey", version.ref = "fixture-monkey" }
 
 [bundles]
 db-libs = ["spring-jdbc", "spring-data-jpa", "spring-data-jdbc"]

@@ -31,7 +31,7 @@ public class BankAccountController {
     BankAccount createAccount() {
         return createBankAccount.apply(
             BankAccount.of(
-                1,
+                5,
                 "일반예금",
                 Bank.KAKAO,
                 "756002-00-014380",

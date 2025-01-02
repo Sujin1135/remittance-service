@@ -1,8 +1,11 @@
 package io.dflowers.remittanceservice.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import io.dflowers.remittanceservice.domain.User;
+import io.dflowers.remittanceservice.service.exception.DuplicatedException;
+import io.dflowers.remittanceservice.service.exception.NotFoundException;
 import io.dflowers.remittanceservice.factory.BankAccountDataFactory;
 import io.dflowers.remittanceservice.factory.UserDataFactory;
 import io.dflowers.remittanceservice.repository.UserRepository;
@@ -68,12 +71,38 @@ public class CreateBankAccountTest {
     }
 
     @Test
-    public void testShouldBeReturnByInput() {
+    public void testShouldReturnByInput() {
         var params = BankAccountDataFactory.generate(user.id());
         var sut = createBankAccount.apply(params);
 
         assertEquals(sut.userId(), params.userId());
         assertEquals(sut.accountNumber(), params.accountNumber());
         assertEquals(sut.name(), params.name());
+    }
+
+    @Test
+    public void testShouldRaiseCauseNotExistedUserId() {
+        var params = BankAccountDataFactory.generate(0);
+
+        RuntimeException exception = assertThrows(
+            NotFoundException.class,
+            () -> { createBankAccount.apply(params); }
+        );
+
+        assertEquals("User not found", exception.getMessage());
+    }
+
+    @Test
+    public void testShouldRaiseCauseNotExistedAccountNumber() {
+        var params = BankAccountDataFactory.generate(user.id());
+
+        createBankAccount.apply(params);
+
+        RuntimeException exception = assertThrows(
+            DuplicatedException.class,
+            () -> createBankAccount.apply(params)
+        );
+
+        assertEquals("Account number is already exists", exception.getMessage());
     }
 }

@@ -12,7 +12,7 @@ CREATE TABLE bank_accounts (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL, -- 사용자 식별자
     name VARCHAR(50) NOT NULL, -- 계좌명
-    bank ENUM('KBank', 'Shinhan', 'Hana', 'Woori', 'KakaoBank') NOT NULL, -- 은행
+    bank varchar(20) NOT NULL, -- 은행
     account_number VARCHAR(20) NOT NULL UNIQUE, -- 계좌번호
     balance DECIMAL(18, 2) NOT NULL DEFAULT 0, -- 잔액
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

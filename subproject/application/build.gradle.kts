@@ -7,4 +7,6 @@ dependencies {
 
     testImplementation(rootProject.libs.bundles.test.db)
     testImplementation(rootProject.libs.bundles.flyway)
+
+    testFixturesImplementation(rootProject.libs.fixture.monkey)
 }
