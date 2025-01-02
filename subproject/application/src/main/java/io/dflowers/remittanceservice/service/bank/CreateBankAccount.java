@@ -3,8 +3,8 @@ package io.dflowers.remittanceservice.service.bank;
 import io.dflowers.remittanceservice.domain.BankAccount;
 import io.dflowers.remittanceservice.repository.BankAccountRepository;
 import io.dflowers.remittanceservice.repository.UserRepository;
-import io.dflowers.remittanceservice.service.exception.BadRequestException;
-import io.dflowers.remittanceservice.service.exception.NotFoundException;
+import io.dflowers.remittanceservice.exception.BadRequestException;
+import io.dflowers.remittanceservice.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service

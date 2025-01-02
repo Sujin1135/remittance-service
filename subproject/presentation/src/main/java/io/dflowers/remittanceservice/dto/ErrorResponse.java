@@ -1,6 +1,6 @@
 package io.dflowers.remittanceservice.dto;
 
-import io.dflowers.remittanceservice.service.exception.ErrorCode;
+import io.dflowers.remittanceservice.exception.ErrorCode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.OffsetDateTime;
 import lombok.Getter;

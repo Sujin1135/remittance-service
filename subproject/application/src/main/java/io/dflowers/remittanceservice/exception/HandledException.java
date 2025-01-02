@@ -1,4 +1,4 @@
-package io.dflowers.remittanceservice.service.exception;
+package io.dflowers.remittanceservice.exception;
 
 import lombok.Getter;
 

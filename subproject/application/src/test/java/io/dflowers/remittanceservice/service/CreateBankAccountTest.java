@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import io.dflowers.remittanceservice.domain.User;
-import io.dflowers.remittanceservice.service.exception.BadRequestException;
-import io.dflowers.remittanceservice.service.exception.NotFoundException;
+import io.dflowers.remittanceservice.exception.BadRequestException;
+import io.dflowers.remittanceservice.exception.NotFoundException;
 import io.dflowers.remittanceservice.factory.BankAccountDataFactory;
 import io.dflowers.remittanceservice.factory.UserDataFactory;
 import io.dflowers.remittanceservice.repository.UserRepository;

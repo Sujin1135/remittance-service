@@ -1,4 +1,4 @@
-package io.dflowers.remittanceservice.service.exception;
+package io.dflowers.remittanceservice.exception;
 
 public enum ErrorCode {
     NOT_FOUND,

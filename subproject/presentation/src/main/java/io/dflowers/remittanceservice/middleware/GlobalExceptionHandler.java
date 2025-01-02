@@ -1,9 +1,9 @@
 package io.dflowers.remittanceservice.middleware;
 
 import io.dflowers.remittanceservice.dto.ErrorResponse;
-import io.dflowers.remittanceservice.service.exception.BadRequestException;
-import io.dflowers.remittanceservice.service.exception.ErrorCode;
-import io.dflowers.remittanceservice.service.exception.NotFoundException;
+import io.dflowers.remittanceservice.exception.BadRequestException;
+import io.dflowers.remittanceservice.exception.ErrorCode;
+import io.dflowers.remittanceservice.exception.NotFoundException;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
