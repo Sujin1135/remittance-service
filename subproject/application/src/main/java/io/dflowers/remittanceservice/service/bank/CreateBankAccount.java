@@ -22,7 +22,7 @@ public class CreateBankAccount implements Function<BankAccount, BankAccount> {
     }
 
     @Override
-    public BankAccount apply(BankAccount params) throws NotFoundException {
+    public BankAccount apply(BankAccount params) throws NotFoundException, BadRequestException {
         validateUser(params);
 
         return bankAccountRepository.save(params);
