@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import io.dflowers.remittanceservice.domain.User;
-import io.dflowers.remittanceservice.service.exception.DuplicatedException;
+import io.dflowers.remittanceservice.service.exception.BadRequestException;
 import io.dflowers.remittanceservice.service.exception.NotFoundException;
 import io.dflowers.remittanceservice.factory.BankAccountDataFactory;
 import io.dflowers.remittanceservice.factory.UserDataFactory;
@@ -99,7 +99,7 @@ public class CreateBankAccountTest {
         createBankAccount.apply(params);
 
         RuntimeException exception = assertThrows(
-            DuplicatedException.class,
+            BadRequestException.class,
             () -> createBankAccount.apply(params)
         );
 

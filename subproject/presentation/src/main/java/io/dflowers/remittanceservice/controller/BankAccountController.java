@@ -1,7 +1,7 @@
 package io.dflowers.remittanceservice.controller;
 
-import io.dflowers.remittanceservice.domain.BankAccount;
 import io.dflowers.remittanceservice.dto.CreateAccountRequest;
+import io.dflowers.remittanceservice.dto.CreateAccountResponse;
 import io.dflowers.remittanceservice.service.bank.CreateBankAccount;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class BankAccountController {
 
     @PostMapping("/accounts")
     @ResponseStatus(HttpStatus.CREATED)
-    BankAccount createAccount(@Valid @RequestBody CreateAccountRequest body) {
-        return createBankAccount.apply(body.toDomain());
+    CreateAccountResponse createAccount(@Valid @RequestBody CreateAccountRequest body) {
+        return new CreateAccountResponse(createBankAccount.apply(body.toDomain()));
     }
 }

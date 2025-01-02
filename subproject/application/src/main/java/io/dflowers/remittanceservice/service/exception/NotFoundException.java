@@ -1,7 +1,12 @@
 package io.dflowers.remittanceservice.service.exception;
 
-public class NotFoundException extends RuntimeException {
+public class NotFoundException extends HandledException {
+
+  public NotFoundException(ErrorCode code, String message) {
+    super(code, message);
+  }
+
   public NotFoundException(String message) {
-    super(message);
+    super(ErrorCode.NOT_FOUND, message);
   }
 }

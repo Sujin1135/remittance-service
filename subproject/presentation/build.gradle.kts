@@ -3,4 +3,5 @@ dependencies {
     implementation(project(":subproject:application"))
 
     implementation(rootProject.libs.spring.validation)
+    implementation(rootProject.libs.swagger)
 }
