@@ -1,12 +1,17 @@
-package io.dflowers.remittanceservice;
+package io.dflowers.remittanceservice.controller;
 
 import io.dflowers.remittanceservice.domain.Bank;
 import io.dflowers.remittanceservice.domain.BankAccount;
+import io.dflowers.remittanceservice.dto.CreateAccountRequest;
 import io.dflowers.remittanceservice.service.bank.CreateBankAccount;
 import io.dflowers.remittanceservice.service.bank.FindBankById;
+import jakarta.validation.Valid;
 import java.math.BigDecimal;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -28,15 +33,8 @@ public class BankAccountController {
     }
 
     @PostMapping("/accounts")
-    BankAccount createAccount() {
-        return createBankAccount.apply(
-            BankAccount.of(
-                5,
-                "일반예금",
-                Bank.KAKAO,
-                "756002-00-014380",
-                BigDecimal.ZERO
-            )
-        );
+    @ResponseStatus(HttpStatus.CREATED)
+    BankAccount createAccount(@Valid @RequestBody CreateAccountRequest body) {
+        return createBankAccount.apply(body.toDomain());
     }
 }

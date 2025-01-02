@@ -19,6 +19,7 @@ spring-web = { group = "org.springframework.boot", name = "spring-boot-starter-w
 spring-jdbc = { group = "org.springframework.boot", name = "spring-boot-starter-jdbc", version.ref = "spring" }
 spring-data-jpa = { group = "org.springframework.boot", name = "spring-boot-starter-data-jpa", version.ref = "spring" }
 spring-data-jdbc = { group = "org.springframework.boot", name = "spring-boot-starter-data-jdbc", version.ref = "spring" }
+spring-validation = { group = "org.springframework.boot", name = "spring-boot-starter-validation", version.ref = "spring" }
 flyway-core = { group = "org.flywaydb", name = "flyway-core", version.ref = "flyway" }
 flyway-mysql = { group = "org.flywaydb", name = "flyway-mysql", version.ref = "flyway" }
 lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
