@@ -3,7 +3,6 @@ package io.dflowers.remittanceservice.repository;
 import io.dflowers.remittanceservice.domain.BankAccount;
 import io.dflowers.remittanceservice.entity.BankAccountEntity;
 import java.util.Optional;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -23,6 +22,13 @@ public class BankAccountRepositoryImpl implements BankAccountRepository {
     }
 
     @Override
+    public Optional<BankAccount> findByIdAndUserId(long id, long userId) {
+        return jpaBankAccountRepository
+            .findByIdAndUserId(id, userId)
+            .map(BankAccountEntity::toDomain);
+    }
+
+    @Override
     public Optional<BankAccount> findByAccountNumber(String accountNumber) {
         return jpaBankAccountRepository
             .findByAccountNumber(accountNumber)
@@ -32,7 +38,7 @@ public class BankAccountRepositoryImpl implements BankAccountRepository {
     @Override
     public BankAccount save(BankAccount bankAccount) {
         return jpaBankAccountRepository
-            .save(BankAccountEntity.from(bankAccount))
+            .save(new BankAccountEntity(bankAccount))
             .toDomain();
     }
 }

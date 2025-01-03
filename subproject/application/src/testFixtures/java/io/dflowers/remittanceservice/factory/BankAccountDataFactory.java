@@ -17,6 +17,7 @@ public class BankAccountDataFactory {
             .objectIntrospector(ConstructorPropertiesArbitraryIntrospector.INSTANCE)
             .build();
         return sut.giveMeBuilder(BankAccount.class)
+            .set(javaGetter(BankAccount::id), 0)
             .set(javaGetter(BankAccount::userId), userId)
             .set(
                 javaGetter(BankAccount::name),
@@ -36,6 +37,7 @@ public class BankAccountDataFactory {
             .set(javaGetter(BankAccount::balance), BigDecimal.ZERO)
             .set(javaGetter(BankAccount::created), now)
             .set(javaGetter(BankAccount::modified), now)
+            .set(javaGetter(BankAccount::deleted), null)
             .sample();
     }
 }

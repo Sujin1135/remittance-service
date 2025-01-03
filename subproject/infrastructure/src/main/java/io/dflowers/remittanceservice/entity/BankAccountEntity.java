@@ -13,40 +13,26 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.Optional;
 import lombok.Getter;
 
 @Entity
 @Table(name = "bank_accounts")
 @Getter
 public class BankAccountEntity {
-    public static BankAccountEntity from(BankAccount bankAccount) {
-        return new BankAccountEntity(
-            bankAccount.name(),
-            bankAccount.accountNumber(),
-            bankAccount.bank(),
-            bankAccount.balance(),
-            bankAccount.created(),
-            bankAccount.modified()
-        );
-    }
 
     protected BankAccountEntity() {}
 
-    public BankAccountEntity(
-        String name,
-        String accountNumber,
-        Bank bank,
-        BigDecimal balance,
-        OffsetDateTime created,
-        OffsetDateTime modified
-    ) {
-        this.name = name;
-        this.accountNumber = accountNumber;
-        this.bank = bank;
-        this.userId = 1L;
-        this.balance = balance;
-        this.created = created;
-        this.modified = modified;
+    public BankAccountEntity(BankAccount domain) {
+        this.id = domain.id();
+        this.name = domain.name();
+        this.accountNumber = domain.accountNumber();
+        this.bank = domain.bank();
+        this.userId = domain.userId();
+        this.balance = domain.balance();
+        this.created = domain.created();
+        this.modified = domain.modified();
+        this.deleted = domain.deleted();
     }
 
     @Id

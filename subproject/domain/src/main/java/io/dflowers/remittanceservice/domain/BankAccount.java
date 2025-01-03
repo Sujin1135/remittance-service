@@ -3,7 +3,9 @@ package io.dflowers.remittanceservice.domain;
 import jakarta.annotation.Nullable;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import lombok.With;
 
+@With
 public record BankAccount(
     long id,
     long userId,
@@ -35,5 +37,10 @@ public record BankAccount(
             now,
             null
         );
+    }
+
+    public BankAccount delete() {
+        var now = OffsetDateTime.now();
+        return this.withDeleted(now).withModified(now);
     }
 }
