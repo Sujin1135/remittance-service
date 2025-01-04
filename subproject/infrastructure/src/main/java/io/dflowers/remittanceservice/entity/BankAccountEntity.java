@@ -13,7 +13,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.Optional;
 import lombok.Getter;
 
 @Entity
@@ -30,6 +29,8 @@ public class BankAccountEntity {
         this.bank = domain.bank();
         this.userId = domain.userId();
         this.balance = domain.balance();
+        this.dailyWithdrawLimit = domain.dailyWithdrawLimit();
+        this.dailyTransferLimit = domain.dailyTransferLimit();
         this.created = domain.created();
         this.modified = domain.modified();
         this.deleted = domain.deleted();
@@ -56,6 +57,12 @@ public class BankAccountEntity {
     private BigDecimal balance;
 
     @Column(nullable = false)
+    private BigDecimal dailyWithdrawLimit;
+
+    @Column(nullable = false)
+    private BigDecimal dailyTransferLimit;
+
+    @Column(nullable = false)
     private OffsetDateTime created;
 
     @Column(nullable = false)
@@ -73,6 +80,8 @@ public class BankAccountEntity {
             bank = bank,
             accountNumber = accountNumber,
             balance = balance,
+            dailyWithdrawLimit = dailyWithdrawLimit,
+            dailyTransferLimit = dailyTransferLimit,
             created = created,
             modified = modified,
             deleted = deleted

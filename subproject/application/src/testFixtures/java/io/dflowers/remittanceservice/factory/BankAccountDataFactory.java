@@ -6,6 +6,7 @@ import com.navercorp.fixturemonkey.FixtureMonkey;
 import com.navercorp.fixturemonkey.api.introspector.ConstructorPropertiesArbitraryIntrospector;
 import io.dflowers.remittanceservice.domain.Bank;
 import io.dflowers.remittanceservice.domain.BankAccount;
+import io.dflowers.remittanceservice.domain.DailyLimit;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import net.jqwik.api.Arbitraries;
@@ -35,6 +36,8 @@ public class BankAccountDataFactory {
             )
             .set(javaGetter(BankAccount::bank), Arbitraries.of(Bank.values()))
             .set(javaGetter(BankAccount::balance), BigDecimal.ZERO)
+            .set(javaGetter(BankAccount::dailyWithdrawLimit), DailyLimit.DEFAULT_WITHDRAW_LIMIT)
+            .set(javaGetter(BankAccount::dailyTransferLimit), DailyLimit.DEFAULT_TRANSFER_LIMIT)
             .set(javaGetter(BankAccount::created), now)
             .set(javaGetter(BankAccount::modified), now)
             .set(javaGetter(BankAccount::deleted), null)

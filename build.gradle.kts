@@ -65,3 +65,7 @@ allprojects {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+springBoot {
+    mainClass = "io.dflowers.remittanceservice.RemittanceServiceApplication"
+}

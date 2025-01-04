@@ -3,5 +3,6 @@ package io.dflowers.remittanceservice.exception;
 public enum ErrorCode {
     NOT_FOUND,
     ALREADY_REGISTERED,
-    NOT_VALID
+    NOT_VALID,
+    LACK_OF_BALANCE
 }

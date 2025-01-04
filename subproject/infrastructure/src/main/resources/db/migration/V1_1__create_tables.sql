@@ -15,6 +15,8 @@ CREATE TABLE bank_accounts (
     bank varchar(20) NOT NULL, -- 은행
     account_number VARCHAR(20) NOT NULL UNIQUE, -- 계좌번호
     balance DECIMAL(18, 2) NOT NULL DEFAULT 0, -- 잔액
+    daily_withdraw_limit DECIMAL(18, 2) NOT NULL DEFAULT 1000000, -- 출금 일 한도
+    daily_transfer_limit DECIMAL(18, 2) NOT NULL DEFAULT 3000000, -- 이체 일 한도
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     deleted TIMESTAMP,
@@ -43,6 +45,7 @@ CREATE TABLE daily_limits (
     total_withdraw DECIMAL(18, 2) NOT NULL DEFAULT 0, -- 오늘 출금 합계
     total_transfer DECIMAL(18, 2) NOT NULL DEFAULT 0, -- 오늘 이체 합계
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (account_id, date),
     FOREIGN KEY (account_id) REFERENCES bank_accounts(id)
 );

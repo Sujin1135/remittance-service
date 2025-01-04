@@ -13,6 +13,8 @@ public record BankAccount(
     Bank bank,
     String accountNumber,
     BigDecimal balance,
+    BigDecimal dailyWithdrawLimit,
+    BigDecimal dailyTransferLimit,
     OffsetDateTime created,
     OffsetDateTime modified,
     @Nullable
@@ -33,6 +35,8 @@ public record BankAccount(
             bank,
             accountNumber,
             balance,
+            DailyLimit.DEFAULT_WITHDRAW_LIMIT,
+            DailyLimit.DEFAULT_TRANSFER_LIMIT,
             now,
             now,
             null
@@ -42,5 +46,13 @@ public record BankAccount(
     public BankAccount delete() {
         var now = OffsetDateTime.now();
         return this.withDeleted(now).withModified(now);
+    }
+
+    public BankAccount subtract(BigDecimal amount) {
+        return this.withBalance(this.balance.subtract(amount));
+    }
+
+    public BankAccount increase(BigDecimal amount) {
+        return this.withBalance(this.balance.add(amount));
     }
 }

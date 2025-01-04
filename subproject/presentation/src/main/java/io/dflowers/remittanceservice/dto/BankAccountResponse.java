@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class CreateAccountResponse {
+public class BankAccountResponse {
     long id;
 
     long userId;
@@ -36,7 +36,7 @@ public class CreateAccountResponse {
 
     OffsetDateTime modified;
 
-    public CreateAccountResponse(BankAccount bankAccount) {
+    public BankAccountResponse(BankAccount bankAccount) {
         this.id = bankAccount.id();
         this.userId = bankAccount.userId();
         this.name = bankAccount.name();
