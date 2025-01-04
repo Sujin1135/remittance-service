@@ -48,11 +48,11 @@ public record BankAccount(
         return this.withDeleted(now).withModified(now);
     }
 
-    public BankAccount subtract(BigDecimal amount) {
+    public BankAccount withdraw(BigDecimal amount) {
         return this.withBalance(this.balance.subtract(amount));
     }
 
-    public BankAccount increase(BigDecimal amount) {
+    public BankAccount deposit(BigDecimal amount) {
         return this.withBalance(this.balance.add(amount));
     }
 }

@@ -83,7 +83,7 @@ public class WithdrawBankAccountTest {
     public void testShouldReturnSubtractedBalance() throws NotFoundException, BadRequestException {
         var subtractedBalance = new BigDecimal(5000);
         var sut = depositBankAccount.invoke(bankAccount.id(), subtractedBalance);
-        var expected = bankAccount.subtract(subtractedBalance).balance();
+        var expected = bankAccount.withdraw(subtractedBalance).balance();
 
         assertEquals(0, sut.balance().compareTo(expected));
     }

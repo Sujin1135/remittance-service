@@ -25,7 +25,7 @@ public class WithdrawBankAccount {
         BankAccount bankAccount = bankAccountRepository.findById(id).orElseThrow(
             () -> new NotFoundException(String.format("Bank account was not found by id(%d)", id))
         );
-        BankAccount updated = bankAccount.subtract(amount);
+        BankAccount updated = bankAccount.withdraw(amount);
 
         if (updated.balance().compareTo(BigDecimal.ZERO) < 0) {
             throw new BadRequestException("You have an insufficient balance");
