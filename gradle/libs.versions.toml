@@ -10,11 +10,13 @@ junit-platform-launcher = "1.11.4"
 junit = "5.11.4"
 fixture-monkey = "1.1.8"
 swagger = "2.7.0"
+shadow = "7.1.2"
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring" }
 dependency-management = { id = "io.spring.dependency-management", version.ref = "dependency-management" }
 flyway = { id = "org.flywaydb.flyway", version.ref = "flyway" }
+shadow = { id = "com.github.johnrengelman.shadow", version.ref="shadow"}
 
 [libraries]
 spring-web = { group = "org.springframework.boot", name = "spring-boot-starter-web", version.ref = "spring" }

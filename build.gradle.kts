@@ -27,6 +27,7 @@ allprojects {
 }
 
 dependencies {
+    implementation(project(":subproject:boot"))
     implementation(project(":subproject:presentation"))
     implementation(project(":subproject:domain"))
     implementation(project(":subproject:application"))
@@ -64,8 +65,4 @@ allprojects {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-}
-
-springBoot {
-    mainClass = "io.dflowers.remittanceservice.RemittanceServiceApplication"
 }

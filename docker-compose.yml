@@ -1,18 +1,16 @@
 services:
-  redis:
-    container_name: remittance-redis
-    image: redis:7-alpine
-    restart: always
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "6379:6379"
-    volumes:
-      - ./redis/data:/data
-      - ./redis/conf/redis.conf:/usr/local/conf/redis.conf
-    labels:
-      - "name=redis"
-      - "mode=standalone"
-    command: redis-server /usr/local/conf/redis.conf
-  mysql:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      DB_HOST: app-mysql
+    depends_on:
+      - app-mysql
+  app-mysql:
     image: mysql:8.0
     restart: always
     container_name: remittance-mysql8
@@ -26,3 +24,4 @@ services:
       - --collation-server=utf8mb4_unicode_ci
     volumes:
       - ./data/mysql/:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/./subproject/infrastructure/src/main/resources/db/migration/V1_1__create_tables.sql

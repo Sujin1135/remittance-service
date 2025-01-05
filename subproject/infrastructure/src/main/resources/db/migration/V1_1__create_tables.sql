@@ -8,6 +8,9 @@ CREATE TABLE users
     deleted  TIMESTAMP                           NULL
 );
 
+INSERT INTO users(name) VALUES ('사용자1');
+INSERT INTO users(name) VALUES ('사용자2');
+
 CREATE TABLE bank_accounts (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL, -- 사용자 식별자
@@ -36,6 +39,9 @@ CREATE TABLE transactions (
     FOREIGN KEY (account_id) REFERENCES bank_accounts(id),
     FOREIGN KEY (related_account_id) REFERENCES bank_accounts(id)
 );
+
+CREATE INDEX transactions_account_id_id_desc_index
+    ON transactions (account_id, id desc);
 
 CREATE TABLE daily_limits (
     account_id BIGINT NOT NULL, -- 계좌 ID
