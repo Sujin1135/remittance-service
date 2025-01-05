@@ -20,6 +20,9 @@ public record BankAccount(
     @Nullable
     OffsetDateTime deleted
 ) {
+
+    public static BigDecimal FEE_LATE = BigDecimal.valueOf(0.01);
+
     public static BankAccount of(
         long userId,
         String name,
@@ -54,5 +57,13 @@ public record BankAccount(
 
     public BankAccount deposit(BigDecimal amount) {
         return this.withBalance(this.balance.add(amount));
+    }
+    
+    public BankAccount transfer(BigDecimal amount) {
+        var fee = amount.multiply(FEE_LATE);
+        var deductedAmount = this.balance.subtract(amount);
+        var deductedFee = deductedAmount.subtract(fee);
+
+        return this.withBalance(deductedFee);
     }
 }

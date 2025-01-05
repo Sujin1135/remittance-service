@@ -36,4 +36,8 @@ public record DailyLimit(
     public DailyLimit saveWithdraw(BigDecimal amount) {
         return this.withTotalWithdraw(totalWithdraw.add(amount));
     }
+
+    public DailyLimit saveTransfer(BigDecimal amount) {
+        return this.withTotalTransfer(totalTransfer.add(amount));
+    }
 }

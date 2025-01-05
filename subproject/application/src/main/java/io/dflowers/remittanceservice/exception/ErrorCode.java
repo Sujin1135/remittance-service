@@ -4,5 +4,6 @@ public enum ErrorCode {
     NOT_FOUND,
     ALREADY_REGISTERED,
     NOT_VALID,
-    LACK_OF_BALANCE
+    LACK_OF_BALANCE,
+    EXCEEDED_TRANSFER_LIMIT
 }
