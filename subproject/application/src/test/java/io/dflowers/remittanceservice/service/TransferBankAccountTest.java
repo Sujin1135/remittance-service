@@ -14,6 +14,7 @@ import io.dflowers.remittanceservice.repository.BankAccountRepository;
 import io.dflowers.remittanceservice.repository.TransactionRepository;
 import io.dflowers.remittanceservice.repository.UserRepository;
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -186,7 +187,10 @@ public class TransferBankAccountTest {
         throws NotFoundException, BadRequestException {
             var amount = new BigDecimal(5000);
             var afterBankAccount = transferBankAccount.invoke(sender.id(), receiver.id(), amount);
-            var transaction = transactionRepository.findByAccountId(sender.id()).stream().filter(
+            var transaction = transactionRepository.findByAccountId(
+                sender.id(),
+                0
+            ).stream().filter(
                 (t) -> t.transactionType() == TransactionType.SEND
             ).toList().getFirst();
 
@@ -201,9 +205,13 @@ public class TransferBankAccountTest {
 
         transferBankAccount.invoke(sender.id(), receiver.id(), amount);
 
-        var transaction = transactionRepository.findByAccountId(receiver.id()).stream().filter(
-            (t) -> t.transactionType() == TransactionType.RECEIVED
-        ).toList().getFirst();
+        var transaction = transactionRepository
+            .findByAccountId(receiver.id(), 0)
+            .stream().filter(
+                (t) -> t.transactionType() == TransactionType.RECEIVED
+            )
+            .toList()
+            .getFirst();
         var afterReceiver = bankAccountRepository.findById(receiver.id()).get();
 
         assertEquals(transaction.balanceAfter().compareTo(receiver.balance().add(amount)), 0);

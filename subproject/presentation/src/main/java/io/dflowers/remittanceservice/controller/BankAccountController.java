@@ -1,5 +1,6 @@
 package io.dflowers.remittanceservice.controller;
 
+import io.dflowers.remittanceservice.domain.BankTransaction;
 import io.dflowers.remittanceservice.dto.CreateAccountRequest;
 import io.dflowers.remittanceservice.dto.BankAccountResponse;
 import io.dflowers.remittanceservice.dto.DeleteAccountRequest;
@@ -12,20 +13,25 @@ import io.dflowers.remittanceservice.exception.BadRequestException;
 import io.dflowers.remittanceservice.exception.NotFoundException;
 import io.dflowers.remittanceservice.service.DeleteBankAccount;
 import io.dflowers.remittanceservice.service.DepositBankAccount;
+import io.dflowers.remittanceservice.service.FindTransactionsByAccountId;
 import io.dflowers.remittanceservice.service.TransferBankAccount;
 import io.dflowers.remittanceservice.service.WithdrawBankAccount;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,6 +45,7 @@ public class BankAccountController {
     private final WithdrawBankAccount withdrawBankAccount;
     private final DepositBankAccount depositBankAccount;
     private final TransferBankAccount transferBankAccount;
+    private final FindTransactionsByAccountId findTransactionsByAccountId;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -157,5 +164,16 @@ public class BankAccountController {
         return new BankAccountResponse(
             transferBankAccount.invoke(id, body.getReceiverId(), body.getAmount())
         );
+    }
+
+    @GetMapping("/{id}/transactions")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "성공")})
+    public List<BankTransaction> getTransactions(
+        @PathVariable("id") long id,
+        @RequestParam(name = "cursor")
+        @Parameter(description = "커서 transaction id", example = "0")
+        long cursor
+    ) {
+        return findTransactionsByAccountId.invoke(id, cursor);
     }
 }

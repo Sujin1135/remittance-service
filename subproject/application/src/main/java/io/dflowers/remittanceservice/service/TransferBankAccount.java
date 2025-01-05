@@ -31,6 +31,8 @@ public class TransferBankAccount {
         var sender = getBankAccountWithBalanceSubtracted(id, amount);
 
         saveWithdraw(id, amount);
+        var receiver = transferToReceiver(receiverId, amount);
+
         saveTransaction.invoke(
             id,
             receiverId,
@@ -39,8 +41,6 @@ public class TransferBankAccount {
             sender.calcFee(amount),
             TransactionType.SEND
         );
-
-        var receiver = transferToReceiver(receiverId, amount);
         saveTransaction.invoke(
             receiverId,
             id,

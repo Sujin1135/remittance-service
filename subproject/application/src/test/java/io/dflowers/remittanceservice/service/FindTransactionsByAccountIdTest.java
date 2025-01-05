@@ -1,19 +1,15 @@
 package io.dflowers.remittanceservice.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import io.dflowers.remittanceservice.domain.BankAccount;
-import io.dflowers.remittanceservice.domain.TransactionType;
-import io.dflowers.remittanceservice.exception.BadRequestException;
-import io.dflowers.remittanceservice.exception.NotFoundException;
 import io.dflowers.remittanceservice.factory.BankAccountDataFactory;
+import io.dflowers.remittanceservice.factory.BankTransactionFactory;
 import io.dflowers.remittanceservice.factory.UserDataFactory;
 import io.dflowers.remittanceservice.repository.BankAccountRepository;
 import io.dflowers.remittanceservice.repository.TransactionRepository;
 import io.dflowers.remittanceservice.repository.UserRepository;
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -28,10 +24,10 @@ import org.testcontainers.containers.MySQLContainer;
 
 @TestPropertySource(locations = "classpath:application-test.yml")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class WithdrawBankAccountTest {
+public class FindTransactionsByAccountIdTest {
 
     @Autowired
-    private WithdrawBankAccount withdrawBankAccount;
+    private FindTransactionsByAccountId findTransactionsByAccountId;
 
     @Autowired
     private UserRepository userRepository;
@@ -43,6 +39,7 @@ public class WithdrawBankAccountTest {
     private TransactionRepository transactionRepository;
 
     private BankAccount bankAccount;
+    private int limit = 50;
 
     static MySQLContainer<?> mysql = new MySQLContainer<>(
         "mysql:8.0"
@@ -70,6 +67,13 @@ public class WithdrawBankAccountTest {
                 .generate(userRepository.save(UserDataFactory.generate("최민규")).id())
                 .withBalance(new BigDecimal(500000))
         );
+
+        for (int i = 0; i < limit; i++) {
+            transactionRepository.save(
+                BankTransactionFactory.generate(bankAccount.id(),
+                    bankAccount.id())
+            );
+        }
     }
 
     @AfterAll
@@ -85,57 +89,37 @@ public class WithdrawBankAccountTest {
     }
 
     @Test
-    public void testShouldReturnSubtractedBalance() throws NotFoundException, BadRequestException {
-        var subtractedBalance = new BigDecimal(5000);
-        var sut = withdrawBankAccount.invoke(bankAccount.id(), subtractedBalance);
-        var expected = bankAccount.withdraw(subtractedBalance).balance();
+    public void testShouldReturnTransactionsByDefaultLimit() {
+        var sut = findTransactionsByAccountId.invoke(
+            bankAccount.id(),
+            0
+        );
 
-        assertEquals(0, sut.balance().compareTo(expected));
+        assertEquals(10, sut.size());
     }
 
     @Test
-    public void testShouldThrowNotFoundExceptionWhenFindInvalidId() {
-        var invalidId = 0;
-        Exception exception = assertThrows(
-            NotFoundException.class,
-            () -> withdrawBankAccount.invoke(invalidId, new BigDecimal(50000))
+    public void testShouldReturnTransactionsByLastCreated() {
+        var previous = findTransactionsByAccountId.invoke(
+            bankAccount.id(),
+            0
+        ).getLast();
+
+        var sut = findTransactionsByAccountId.invoke(
+            bankAccount.id(),
+            previous.id()
         );
 
-        assertEquals(
-            String.format("Bank account was not found by id(%d)", invalidId),
-            exception.getMessage()
-        );
+        assertEquals(10, sut.size());
     }
 
     @Test
-    public void testShouldThrowBadRequestExceptionCauseLackOfBalance() {
-        var withdrawAmount = bankAccount.balance().add(new BigDecimal(10000));
-
-        Exception exception = assertThrows(
-            BadRequestException.class,
-            () -> withdrawBankAccount.invoke(bankAccount.id(), withdrawAmount)
+    public void testShouldReturnEmptyListAfterLastCursor() {
+        var sut = findTransactionsByAccountId.invoke(
+            bankAccount.id(),
+            limit
         );
 
-        assertEquals(
-            "You have an insufficient balance",
-            exception.getMessage()
-        );
-    }
-
-    @Test
-    public void testShouldReturnCorrectlyTransactionData() throws NotFoundException, BadRequestException {
-        var amount = new BigDecimal(5000);
-        var afterBankAccount = withdrawBankAccount.invoke(bankAccount.id(), amount);
-        var transaction = transactionRepository
-            .findByAccountId(bankAccount.id(), 0)
-            .stream().filter(
-                (t) -> t.transactionType() == TransactionType.WITHDRAW
-            )
-            .toList()
-            .getFirst();
-
-        assertEquals(transaction.balanceAfter().compareTo(bankAccount.balance().subtract(amount)), 0);
-        assertEquals(transaction.balanceAfter().compareTo(afterBankAccount.balance()), 0);
-        assertEquals(transaction.amount().compareTo(amount), 0);
+        assertEquals(true, sut.isEmpty());
     }
 }

@@ -13,6 +13,7 @@ import io.dflowers.remittanceservice.repository.BankAccountRepository;
 import io.dflowers.remittanceservice.repository.TransactionRepository;
 import io.dflowers.remittanceservice.repository.UserRepository;
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -111,7 +112,10 @@ public class DepositBankAccountTest {
     public void testShouldReturnCorrectlyTransactionData() throws NotFoundException {
         var amount = new BigDecimal(5000);
         var afterBankAccount = depositBankAccount.invoke(bankAccount.id(), amount);
-        var transaction = transactionRepository.findByAccountId(bankAccount.id()).stream().filter(
+        var transaction = transactionRepository.findByAccountId(
+            bankAccount.id(),
+            0
+        ).stream().filter(
             (t) -> t.transactionType() == TransactionType.DEPOSIT
         ).toList().getFirst();
 
