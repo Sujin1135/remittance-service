@@ -27,7 +27,7 @@ CREATE TABLE transactions (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     account_id BIGINT NOT NULL, -- 거래 계좌 ID
     related_account_id BIGINT, -- 관련된 계좌 ID (수취 계좌)
-    transaction_type ENUM('DEPOSIT', 'WITHDRAW', 'TRANSFER') NOT NULL, -- 거래 유형
+    transaction_type varchar(20) NOT NULL, -- 거래 유형
     amount DECIMAL(18, 2) NOT NULL, -- 거래 금액
     fee DECIMAL(18, 2) NOT NULL DEFAULT 0, -- 수수료 (이체일 경우)
     balance_after DECIMAL(18, 2) NOT NULL, -- 거래 후 잔액

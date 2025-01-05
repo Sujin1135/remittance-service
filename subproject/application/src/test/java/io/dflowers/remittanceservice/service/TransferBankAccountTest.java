@@ -4,12 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import io.dflowers.remittanceservice.domain.BankAccount;
+import io.dflowers.remittanceservice.domain.TransactionType;
 import io.dflowers.remittanceservice.exception.BadRequestException;
 import io.dflowers.remittanceservice.exception.ErrorCode;
 import io.dflowers.remittanceservice.exception.NotFoundException;
 import io.dflowers.remittanceservice.factory.BankAccountDataFactory;
 import io.dflowers.remittanceservice.factory.UserDataFactory;
 import io.dflowers.remittanceservice.repository.BankAccountRepository;
+import io.dflowers.remittanceservice.repository.TransactionRepository;
 import io.dflowers.remittanceservice.repository.UserRepository;
 import java.math.BigDecimal;
 import org.flywaydb.core.Flyway;
@@ -36,6 +38,9 @@ public class TransferBankAccountTest {
 
     @Autowired
     private BankAccountRepository bankAccountRepository;
+
+    @Autowired
+    private TransactionRepository transactionRepository;
 
     private BankAccount sender;
     private BankAccount receiver;
@@ -174,5 +179,35 @@ public class TransferBankAccountTest {
             String.format("Today's transfer(%s) limit has been exceeded", sender.dailyTransferLimit()),
             exception.getMessage()
         );
+    }
+
+    @Test
+    public void testShouldReturnCorrectlyTransactionDataOfSender()
+        throws NotFoundException, BadRequestException {
+            var amount = new BigDecimal(5000);
+            var afterBankAccount = transferBankAccount.invoke(sender.id(), receiver.id(), amount);
+            var transaction = transactionRepository.findByAccountId(sender.id()).stream().filter(
+                (t) -> t.transactionType() == TransactionType.SEND
+            ).toList().getFirst();
+
+            assertEquals(transaction.balanceAfter().compareTo(afterBankAccount.balance()), 0);
+            assertEquals(transaction.amount().compareTo(amount), 0);
+        }
+
+    @Test
+    public void testShouldReturnCorrectlyTransactionDataOfReceiver()
+        throws NotFoundException, BadRequestException {
+        var amount = new BigDecimal(5000);
+
+        transferBankAccount.invoke(sender.id(), receiver.id(), amount);
+
+        var transaction = transactionRepository.findByAccountId(receiver.id()).stream().filter(
+            (t) -> t.transactionType() == TransactionType.RECEIVED
+        ).toList().getFirst();
+        var afterReceiver = bankAccountRepository.findById(receiver.id()).get();
+
+        assertEquals(transaction.balanceAfter().compareTo(receiver.balance().add(amount)), 0);
+        assertEquals(transaction.balanceAfter().compareTo(afterReceiver.balance()), 0);
+        assertEquals(transaction.amount().compareTo(amount), 0);
     }
 }

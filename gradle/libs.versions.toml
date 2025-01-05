@@ -1,5 +1,6 @@
 [versions]
 spring = "3.4.1"
+springframework = "6.2.1"
 dependency-management = "1.1.7"
 flyway = "10.20.1"
 lombok = "1.18.36"
@@ -33,6 +34,7 @@ junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform
 junit-vintage-engine = { group = "org.junit.vintage", name = "junit-vintage-engine", version.ref = "junit" }
 fixture-monkey = { group = "com.navercorp.fixturemonkey", name = "fixture-monkey", version.ref = "fixture-monkey" }
 swagger = { group = "org.springdoc", name = "springdoc-openapi-starter-webmvc-ui", version.ref = "swagger" }
+spring-tx = { group = "org.springframework", name = "spring-tx", version.ref = "springframework" }
 
 [bundles]
 db-libs = ["spring-jdbc", "spring-data-jpa", "spring-data-jdbc"]

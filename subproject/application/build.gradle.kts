@@ -1,6 +1,8 @@
 dependencies {
     implementation(project(":subproject:domain"))
 
+    implementation(rootProject.libs.spring.tx)
+
     testImplementation(project(":subproject:infrastructure"))
 
     testFixturesImplementation(project(":subproject:domain"))

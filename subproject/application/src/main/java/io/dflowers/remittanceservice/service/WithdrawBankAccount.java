@@ -2,6 +2,7 @@ package io.dflowers.remittanceservice.service;
 
 import io.dflowers.remittanceservice.domain.BankAccount;
 import io.dflowers.remittanceservice.domain.DailyLimit;
+import io.dflowers.remittanceservice.domain.TransactionType;
 import io.dflowers.remittanceservice.exception.BadRequestException;
 import io.dflowers.remittanceservice.exception.NotFoundException;
 import io.dflowers.remittanceservice.repository.BankAccountRepository;
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +19,9 @@ public class WithdrawBankAccount {
 
     private final BankAccountRepository bankAccountRepository;
     private final DailyLimitRepository dailyLimitRepository;
+    private final SaveTransaction saveTransaction;
 
+    @Transactional
     public BankAccount invoke(
         long id,
         BigDecimal amount
@@ -32,6 +36,7 @@ public class WithdrawBankAccount {
         }
 
         saveWithdraw(id, amount);
+        saveTransaction.invoke(id, id, amount, updated.balance(), TransactionType.WITHDRAW);
 
         return bankAccountRepository.save(updated);
     }

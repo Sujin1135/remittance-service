@@ -60,10 +60,14 @@ public record BankAccount(
     }
     
     public BankAccount transfer(BigDecimal amount) {
-        var fee = amount.multiply(FEE_LATE);
+        var fee = calcFee(amount);
         var deductedAmount = this.balance.subtract(amount);
         var deductedFee = deductedAmount.subtract(fee);
 
         return this.withBalance(deductedFee);
+    }
+
+    public BigDecimal calcFee(BigDecimal amount) {
+        return amount.multiply(FEE_LATE);
     }
 }

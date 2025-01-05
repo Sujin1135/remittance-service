@@ -4,10 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import io.dflowers.remittanceservice.domain.BankAccount;
+import io.dflowers.remittanceservice.domain.TransactionType;
+import io.dflowers.remittanceservice.exception.BadRequestException;
 import io.dflowers.remittanceservice.exception.NotFoundException;
 import io.dflowers.remittanceservice.factory.BankAccountDataFactory;
 import io.dflowers.remittanceservice.factory.UserDataFactory;
 import io.dflowers.remittanceservice.repository.BankAccountRepository;
+import io.dflowers.remittanceservice.repository.TransactionRepository;
 import io.dflowers.remittanceservice.repository.UserRepository;
 import java.math.BigDecimal;
 import org.flywaydb.core.Flyway;
@@ -34,6 +37,9 @@ public class DepositBankAccountTest {
 
     @Autowired
     private BankAccountRepository bankAccountRepository;
+
+    @Autowired
+    private TransactionRepository transactionRepository;
 
     private BankAccount bankAccount;
 
@@ -99,5 +105,18 @@ public class DepositBankAccountTest {
             String.format("Bank account was not found by id(%d)", invalidId),
             exception.getMessage()
         );
+    }
+
+    @Test
+    public void testShouldReturnCorrectlyTransactionData() throws NotFoundException {
+        var amount = new BigDecimal(5000);
+        var afterBankAccount = depositBankAccount.invoke(bankAccount.id(), amount);
+        var transaction = transactionRepository.findByAccountId(bankAccount.id()).stream().filter(
+            (t) -> t.transactionType() == TransactionType.DEPOSIT
+        ).toList().getFirst();
+
+        assertEquals(transaction.balanceAfter().compareTo(bankAccount.balance().add(amount)), 0);
+        assertEquals(transaction.balanceAfter().compareTo(afterBankAccount.balance()), 0);
+        assertEquals(transaction.amount().compareTo(amount), 0);
     }
 }
