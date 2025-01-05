@@ -10,7 +10,6 @@ import io.dflowers.remittanceservice.factory.BankAccountDataFactory;
 import io.dflowers.remittanceservice.factory.UserDataFactory;
 import io.dflowers.remittanceservice.repository.BankAccountRepository;
 import io.dflowers.remittanceservice.repository.UserRepository;
-import io.dflowers.remittanceservice.service.bank.WithdrawBankAccount;
 import java.math.BigDecimal;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.AfterAll;

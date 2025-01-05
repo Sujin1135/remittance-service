@@ -1,4 +1,4 @@
-package io.dflowers.remittanceservice.service.bank;
+package io.dflowers.remittanceservice.service;
 
 import io.dflowers.remittanceservice.domain.BankAccount;
 import io.dflowers.remittanceservice.exception.BadRequestException;

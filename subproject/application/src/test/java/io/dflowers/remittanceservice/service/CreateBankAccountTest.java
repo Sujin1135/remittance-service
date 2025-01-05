@@ -9,7 +9,6 @@ import io.dflowers.remittanceservice.exception.NotFoundException;
 import io.dflowers.remittanceservice.factory.BankAccountDataFactory;
 import io.dflowers.remittanceservice.factory.UserDataFactory;
 import io.dflowers.remittanceservice.repository.UserRepository;
-import io.dflowers.remittanceservice.service.bank.CreateBankAccount;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
