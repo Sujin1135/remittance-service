@@ -158,3 +158,8 @@ public void testShouldReturnCorrectlyTransactionDataOfReceiver()
 CREATE INDEX transactions_account_id_id_desc_index
     ON transactions (account_id, id desc);
 ```
+
+## Conclusions
+
+위와 같은 구조로 계좌 송금 서비스를 제공하는 초기 구조를 잡았으며, 해당 기능은 동시 사용자 요청이 있을 경우가 아직 고려되어 있지 않습니다.<br/>
+이후 Isolation Level 을 Serializable 로 설정 하거나 분산락을 적용하여 동시 사용자 요청이 있는 환경에서도 안전한 출금 / 이체 / 송금 등의 서비스를 제공할 수 있는 환경을 구축할 계획입니다.
