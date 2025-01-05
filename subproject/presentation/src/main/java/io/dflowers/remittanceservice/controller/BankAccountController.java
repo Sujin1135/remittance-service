@@ -9,6 +9,7 @@ import io.dflowers.remittanceservice.service.CreateBankAccount;
 import io.dflowers.remittanceservice.exception.BadRequestException;
 import io.dflowers.remittanceservice.exception.NotFoundException;
 import io.dflowers.remittanceservice.service.DeleteBankAccount;
+import io.dflowers.remittanceservice.service.DepositBankAccount;
 import io.dflowers.remittanceservice.service.WithdrawBankAccount;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -33,6 +34,7 @@ public class BankAccountController {
     private final CreateBankAccount createBankAccount;
     private final DeleteBankAccount deleteBankAccount;
     private final WithdrawBankAccount withdrawBankAccount;
+    private final DepositBankAccount depositBankAccount;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -77,7 +79,7 @@ public class BankAccountController {
         @ApiResponse(responseCode = "200", description = "성공"),
         @ApiResponse(
             responseCode = "400",
-            description = "계좌 잔액이 출금액보다 적을 경우 / 일 출금 한도를 넘긴 경우",
+            description = "계좌 잔액이 출금액보다 적을 경우 / 일 출금 한도를 넘긴 경우 / 요청값이 벨리데이션 규칙에 어긋날 경우",
             content = @Content(
                 mediaType = "application/json",
                 schema = @Schema(implementation = ErrorResponse.class)
@@ -96,6 +98,33 @@ public class BankAccountController {
     ) throws NotFoundException, BadRequestException {
         return new BankAccountResponse(
             withdrawBankAccount.invoke(id, body.getAmount())
+        );
+    }
+
+    @PostMapping("/{id}/deposit")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "성공"),
+        @ApiResponse(
+            responseCode = "400",
+            description = "요청값이 벨리데이션 규칙에 어긋날 경우",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(implementation = ErrorResponse.class)
+            )),
+        @ApiResponse(
+            responseCode = "404",
+            description = "요청한 계좌 ID 가 없는 경우",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(implementation = ErrorResponse.class)
+            )),
+    })
+    public BankAccountResponse deposit(
+        @PathVariable("id") Long id,
+        @Valid @RequestBody WithdrawBankAccountRequest body
+    ) throws NotFoundException {
+        return new BankAccountResponse(
+            depositBankAccount.invoke(id, body.getAmount())
         );
     }
 }
