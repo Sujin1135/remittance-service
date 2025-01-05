@@ -3,6 +3,7 @@ package io.dflowers.remittanceservice.controller;
 import io.dflowers.remittanceservice.dto.CreateAccountRequest;
 import io.dflowers.remittanceservice.dto.BankAccountResponse;
 import io.dflowers.remittanceservice.dto.DeleteAccountRequest;
+import io.dflowers.remittanceservice.dto.DepositBankAccountRequest;
 import io.dflowers.remittanceservice.dto.ErrorResponse;
 import io.dflowers.remittanceservice.dto.WithdrawBankAccountRequest;
 import io.dflowers.remittanceservice.service.CreateBankAccount;
@@ -121,7 +122,7 @@ public class BankAccountController {
     })
     public BankAccountResponse deposit(
         @PathVariable("id") Long id,
-        @Valid @RequestBody WithdrawBankAccountRequest body
+        @Valid @RequestBody DepositBankAccountRequest body
     ) throws NotFoundException {
         return new BankAccountResponse(
             depositBankAccount.invoke(id, body.getAmount())
