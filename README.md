@@ -74,7 +74,7 @@ Docker 를 사용하여 인스턴스 실행 후 http://localhost:8080/swagger-ui
 
 Layered Architecture 개념대로 각 레이어를 멀티 모듈 구조로 나누어 presentation / domain / application / infrastructure 로 나누었으며 해당 프로젝트를 실행 시키는 boot 모듈이 있습니다.<br/>
 
-- presentation - 클라이언트 요청을 받아 인증 / 권한검사 / 요청에 대한 응답 을 수행
+- presentation - 클라이언트 요청을 받아 인증 / 권한검사 / 요청에 대한 응답 을 수행하며, Exception 발생 시 Exception handler 가 Exception 별로 일관된 에러 응답 및 status 로 변환하여 사용자에게 요청을 반환합니다.
 - domain - 도메인 객체의 구조 및 동작을 정의
 - application - 트랜잭션 / domain 및 infrastructure 레이어를 직 / 간접적으로 호출하여 비즈니스 로직의 흐름을 오케스트레이션
 - infrastructure - DB access / 외부 API 호출 등 outbound 통신을 수행
